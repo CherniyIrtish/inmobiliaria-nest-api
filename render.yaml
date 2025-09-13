@@ -23,6 +23,8 @@ services:
     # Run DB migrations AFTER a successful deploy (tries both build layouts)
     postDeployCommand: >
       bash -lc '
+      echo "=== DEBUG: list dist ===";
+      ls -R dist || true;
       if [ -f dist/database/data-source.js ]; then
         echo "Running migrations with dist/database/data-source.js";
         npm run typeorm:prod -- migration:run -d dist/database/data-source.js;
@@ -30,6 +32,6 @@ services:
         echo "Running migrations with dist/src/database/data-source.js";
         npm run typeorm:prod -- migration:run -d dist/src/database/data-source.js;
       else
-        echo "ERROR: data-source.js not found in dist. Check tsconfig.build.json (rootDir) and build output.";
+        echo "ERROR: data-source.js not found in dist. Check tsconfig.build.json.";
         exit 1;
       fi'
