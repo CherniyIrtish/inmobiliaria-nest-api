@@ -1,0 +1,20 @@
+services:
+  - type: web
+    name: nestjs-app
+    runtime: node
+    plan: free
+    region: frankfurt # choose a region close to your users
+    buildCommand: NPM_CONFIG_PRODUCTION=false npm ci && npm run build
+    startCommand: npm run start:prod
+    autoDeploy: true
+
+    # If you have a health endpoint, set it here:
+    # healthCheckPath: /health
+
+    envVars:
+      - key: DATABASE_URL
+        sync: false # will be added in Render dashboard
+      - key: COOKIE_KEY
+        sync: false
+      - key: JWT_SECRET
+        sync: false

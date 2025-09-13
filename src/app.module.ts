@@ -1,11 +1,12 @@
-import { MiddlewareConsumer, Module, RequestMethod } from '@nestjs/common';
-import cookieSession from 'cookie-session';
+import { Module } from '@nestjs/common';
+// import cookieSession from 'cookie-session';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ConfigModule, ConfigService } from '@nestjs/config';
-import { AppDataSource } from 'src/database/data-source';
+import { ConfigModule } from '@nestjs/config';
+import { AppDataSource } from './database/data-source';
 import { AuthModule } from './modules/auth/auth.module';
 import { UsersModule } from './modules/users/users.module';
 import { ListingsModule } from './modules/listings/listings.module';
+// import session from 'express-session';
 
 
 @Module({
@@ -20,18 +21,22 @@ import { ListingsModule } from './modules/listings/listings.module';
   providers: [],
 })
 export class AppModule {
-  constructor(private _configService: ConfigService) { }
+  // constructor(private _configService: ConfigService) { }
 
-  configure(consumer: MiddlewareConsumer) {
-    consumer.apply(
-      cookieSession({
-        keys: [this._configService.getOrThrow('COOKIE_KEY') as string],
-        maxAge: 1000 * 60 * 60 * 24 * 7,
-        httpOnly: true,
-        secure: false,
-        sameSite: 'lax',
-      })
-    )
-      .forRoutes({ path: '*', method: RequestMethod.ALL });
-  }
+  // configure(consumer: MiddlewareConsumer) {
+  //   const isProd = process.env.NODE_ENV === 'production';
+
+  //   consumer
+  //     .apply(
+  //       cookieSession({
+  //         name: 'session',
+  //         keys: [this._configService.getOrThrow('COOKIE_KEY') as string],
+  //         maxAge: 1000 * 60 * 60 * 24 * 7,
+  //         httpOnly: true,
+  //         secure: isProd,
+  //         sameSite: isProd ? 'none' : 'lax',
+  //       }),
+  //     )
+  //     .forRoutes({ path: '*', method: RequestMethod.ALL });
+  // }
 }

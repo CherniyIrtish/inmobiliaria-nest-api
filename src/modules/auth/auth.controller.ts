@@ -1,33 +1,33 @@
-import { Body, Controller, Post, Session } from '@nestjs/common';
+import { Body, Controller, Post } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { SignDto } from './dtos/sign.dto';
 import { UserDto } from './dtos/user.dto';
-import { Serialize } from 'src/common/interceptors/serialize.interceptor';
+import { Serialize } from '../../common/interceptors/serialize.interceptor';
+import { AuthResponseDto } from './dtos/auth-response.dto';
 
 
 @Controller()
-@Serialize(UserDto)
 export class AuthController {
     constructor(private readonly _authService: AuthService) { }
 
     @Post('/signup')
-    async signUp(@Body() body: SignDto, @Session() session: any) {
+    @Serialize(UserDto)
+    async signUp(@Body() body: SignDto) {
         const user = await this._authService.signup(body.email, body.password);
 
         return user;
     }
 
-    @Post('/signin',)
-    async signIn(@Body() body: SignDto, @Session() session: any) {
-        const user = await this._authService.signin(body.email, body.password);
+    @Post('/signin')
+    @Serialize(AuthResponseDto)
+    async signIn(@Body() body: SignDto) {
+        const { user, accessToken } = await this._authService.signin(body.email, body.password);
 
-        session.userId = user.id;
-
-        return user;
+        return { user, accessToken };
     }
 
     @Post('/signout')
-    async signOut(@Session() session: any) {
-        session.userId = null;
+    async signOut() {
+        return { ok: true };
     }
 }

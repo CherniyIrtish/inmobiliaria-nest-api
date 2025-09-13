@@ -9,12 +9,12 @@ const scrypt = promisify(_scrypt)
 
 
 async function run() {
-    // инициализируем DS (убедись, что миграции уже накатаны)
+    // initialize DS (make sure migrations are already rolled out)
     if (!AppDataSource.isInitialized) {
         await AppDataSource.initialize();
     }
 
-    // чтобы сид повторно не дублировал — проверим наличие
+    // to prevent the seed from being duplicated again, let's check for availability
     const userRepo = AppDataSource.getRepository(UserEntity);
 
     // sample users
