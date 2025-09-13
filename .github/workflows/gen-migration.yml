@@ -7,15 +7,22 @@ on:
       - 'src/**/*.ts'
       - '!src/database/migrations/**'
 
+permissions:
+  contents: write # <-- важно
+  pull-requests: write
+
 jobs:
   gen-migration:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        with: { fetch-depth: 0 }
+        with:
+          fetch-depth: 0
+          persist-credentials: true
 
       - uses: actions/setup-node@v4
-        with: { node-version: 20 }
+        with:
+          node-version: 20
 
       - name: Install deps (with dev)
         run: npm ci
@@ -28,7 +35,7 @@ jobs:
           npm run migration:generate:prod
           git status --porcelain
 
-      - name: Commit & push if changed
+      - name: Commit & push (if changed)
         run: |
           if [ -n "$(git status --porcelain)" ]; then
             git config user.name "github-actions[bot]"
@@ -37,5 +44,5 @@ jobs:
             git commit -m "chore(db): auto-generate prod migration"
             git push
           else
-            echo "No schema changes. Nothing to commit."
+            echo "No schema changes detected. Nothing to commit."
           fi
