@@ -16,6 +16,20 @@ services:
         sync: false # will be added in Render dashboard
       - key: COOKIE_KEY
         sync: false # will be added in Render dashboard
+      # Optional: pin Node.js version used at runtime/build
+      # - key: NODE_VERSION
+      #   value: 20
 
-    # Run DB migrations AFTER a successful deploy (uses compiled JS DataSource)
-    postDeployCommand: npm run migration:run:prod
+    # Run DB migrations AFTER a successful deploy (tries both build layouts)
+    postDeployCommand: >
+      bash -lc '
+      if [ -f dist/database/data-source.js ]; then
+        echo "Running migrations with dist/database/data-source.js";
+        npm run typeorm:prod -- migration:run -d dist/database/data-source.js;
+      elif [ -f dist/src/database/data-source.js ]; then
+        echo "Running migrations with dist/src/database/data-source.js";
+        npm run typeorm:prod -- migration:run -d dist/src/database/data-source.js;
+      else
+        echo "ERROR: data-source.js not found in dist. Check tsconfig.build.json (rootDir) and build output.";
+        exit 1;
+      fi'
