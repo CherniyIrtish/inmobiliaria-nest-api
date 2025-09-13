@@ -24,7 +24,7 @@ const postgresOptions: PostgresConnectionOptions = {
     url: process.env.DATABASE_URL,
     entities: [ListingEntity, UserEntity],
     migrations: [path.join(__dirname, 'migrations', '*.js')],
-    synchronize: true,
+    synchronize: false,
     ssl: { rejectUnauthorized: false },
 };
 
