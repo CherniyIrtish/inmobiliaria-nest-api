@@ -12,12 +12,10 @@ services:
     # healthCheckPath: /health
 
     envVars:
-      - key: NODE_ENV
-        value: production
       - key: DATABASE_URL
         sync: false # will be added in Render dashboard
       - key: COOKIE_KEY
         sync: false # will be added in Render dashboard
 
-    # Run DB migrations AFTER a successful deploy:
-    postDeployCommand: npm run migration:run
+    # Run DB migrations AFTER a successful deploy (uses compiled JS DataSource)
+    postDeployCommand: npm run migration:run:prod
