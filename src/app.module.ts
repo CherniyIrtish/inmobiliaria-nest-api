@@ -25,15 +25,18 @@ export class AppModule {
   configure(consumer: MiddlewareConsumer) {
     const isProd = process.env.NODE_ENV === 'production';
 
-    consumer.apply(
-      cookieSession({
-        keys: [this._configService.getOrThrow('COOKIE_KEY') as string],
-        maxAge: 1000 * 60 * 60 * 24 * 7,
-        httpOnly: true,
-        secure: isProd,
-        sameSite: 'none',
-      })
-    )
+
+    consumer
+      .apply(
+        cookieSession({
+          name: 'session',
+          keys: [this._configService.getOrThrow('COOKIE_KEY') as string],
+          maxAge: 1000 * 60 * 60 * 24 * 7,
+          httpOnly: true,
+          secure: isProd,
+          sameSite: isProd ? 'none' : 'lax',
+        }),
+      )
       .forRoutes({ path: '*', method: RequestMethod.ALL });
   }
 }

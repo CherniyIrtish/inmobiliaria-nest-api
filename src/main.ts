@@ -13,10 +13,10 @@ async function bootstrap() {
   const FRONTEND_ORIGIN = process.env.FRONTEND_ORIGIN || 'https://d38u0s6ayarqyq.cloudfront.net';
 
   app.enableCors({
-    origin: FRONTEND_ORIGIN,
+    origin: (origin, cb) => cb(null, true),
     credentials: true,
-    methods: ['GET', 'POST', 'PATCH', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
+    methods: '*',
+    allowedHeaders: '*',
     exposedHeaders: ['Set-Cookie'],
     preflightContinue: false,
     optionsSuccessStatus: 204,
