@@ -1,10 +1,14 @@
-import { CanActivate, ExecutionContext } from "@nestjs/common";
+import { CanActivate, ExecutionContext, ForbiddenException } from "@nestjs/common";
 
 
 export class AuthGuard implements CanActivate {
-    canActivate(context: ExecutionContext) {
-        const request = context.switchToHttp().getRequest();
+    canActivate(context: ExecutionContext): boolean {
+        const req = context.switchToHttp().getRequest();
+        const isAuthed = !!req.session?.userId; // ЖЁСТКО в boolean
+        if (!isAuthed) {
+            throw new ForbiddenException('Not authenticated');
+        }
 
-        return request.session.userId;
+        return true;
     }
 }
