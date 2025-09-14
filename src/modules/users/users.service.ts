@@ -1,6 +1,6 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Not, Repository } from 'typeorm';
 import { UserEntity } from './user.entity';
 
 
@@ -24,5 +24,17 @@ export class UsersService {
         if (!email) throw new BadRequestException('Email is required');
 
         return this._repo.find({ where: { email } });
+    }
+
+    async getUsers(currentUser: UserEntity) {
+        return this._repo.find({ where: { id: Not(currentUser.id) }, relations: { listings: true } });
+    }
+
+    async deleteUser(userId: number) {
+        const userToDelete = await this._repo.find({ where: { id: userId } });
+
+        if (!userToDelete) throw new NotFoundException('User not found');
+
+        return this._repo.remove(userToDelete);
     }
 }

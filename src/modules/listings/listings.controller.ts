@@ -20,17 +20,17 @@ export class ListingsController {
     }
 
     @Post()
-    // @UseGuards(AuthGuard)
+    @UseGuards(AuthGuard)
     async createListing(@Body() body: CreateListingDto, @CurrentUser() user: UserEntity) {
         return this._listingsService.createListing(body, user);
     }
 
     @Patch('/:id')
-    // @UseGuards(AuthGuard)
+    @UseGuards(AuthGuard)
     updateListing(@Param('id') id: string, @Body() body: UpdateListingDto) { }
 
     @Delete('/:id')
-    removeUser(@Param('id') id: string) {
+    removeListing(@Param('id') id: string) {
         return this._listingsService.removeListing(parseInt(id));
     }
 }
