@@ -5,7 +5,7 @@ import { CreateListingDto } from './dtos/create-listing.dto';
 import { CurrentUser } from '../../common/decorators/current-user.decorator';
 import { UserEntity } from '../users/user.entity';
 import { UpdateListingDto } from './dtos/update-listing.dto';
-import { AuthGuard } from 'src/common/guards/auth.guard';
+import { AuthGuard } from '../../common/guards/auth.guard';
 
 
 @Controller('listings')

@@ -3,7 +3,7 @@ import { CurrentUser } from '../../common/decorators/current-user.decorator';
 import { UserEntity } from './user.entity';
 import { UserDto } from '../auth/dtos/user.dto';
 import { Serialize } from '../../common/interceptors/serialize.interceptor';
-import { AuthGuard } from 'src/common/guards/auth.guard';
+import { AuthGuard } from '../../common/guards/auth.guard';
 
 
 @Controller()
