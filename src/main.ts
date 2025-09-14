@@ -23,10 +23,10 @@ async function bootstrap() {
   // });
 
   app.enableCors({
-    origin: '*',
+    origin: (origin, cb) => cb(null, true),
+    credentials: true,
     methods: '*',
     allowedHeaders: '*',
-    credentials: false,
   });
 
 
