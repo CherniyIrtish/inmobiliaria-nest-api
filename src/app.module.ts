@@ -25,7 +25,6 @@ export class AppModule {
   configure(consumer: MiddlewareConsumer) {
     const isProd = process.env.NODE_ENV === 'production';
 
-    console.log('IS_PROD-> ', isProd)
     consumer
       .apply(
         cookieSession({
