@@ -9,9 +9,10 @@ const scrypt = promisify(_scrypt)
 
 @Injectable()
 export class AuthService {
-
-    constructor(private readonly _jwtService: JwtService,
-        private _userService: UsersService) { }
+    constructor(
+        private readonly _jwtService: JwtService,
+        private _userService: UsersService
+    ) { }
 
     async signup(email: string, password: string) {
         const users = await this._userService.find(email);
@@ -28,6 +29,7 @@ export class AuthService {
 
     async signin(email: string, password: string) {
         const [user] = await this._userService.find(email);
+
         if (!user) throw new NotFoundException('User not found');
 
         const [salt, storedHash] = user.password.split('.');
