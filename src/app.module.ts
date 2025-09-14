@@ -27,7 +27,7 @@ export class AppModule {
       cookieSession({
         keys: [this._configService.getOrThrow('COOKIE_KEY') as string],
         maxAge: 1000 * 60 * 60 * 24 * 7,
-        httpOnly: true,
+        httpOnly: false,
         secure: false,
         sameSite: 'none',
       })
