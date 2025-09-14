@@ -5,7 +5,19 @@ import { ConfigService } from '@nestjs/config';
 
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, { cors: false });
+
+  const FRONTEND_ORIGIN = process.env.FRONTEND_ORIGIN || 'https://d38u0s6ayarqyq.cloudfront.net';
+
+  app.enableCors({
+    origin: FRONTEND_ORIGIN,
+    credentials: true,
+    methods: ['GET', 'POST', 'PATCH', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
+    exposedHeaders: ['Set-Cookie'],
+    preflightContinue: false,
+    optionsSuccessStatus: 204,
+  });
 
   setupApp(app);
 
