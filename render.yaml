@@ -19,19 +19,3 @@ services:
       # Optional: pin Node.js version used at runtime/build
       # - key: NODE_VERSION
       #   value: 20
-
-    # Run DB migrations AFTER a successful deploy (tries both build layouts)
-    postDeployCommand: >
-      bash -lc '
-      echo "=== DEBUG: list dist ===";
-      ls -R dist || true;
-      if [ -f dist/database/data-source.js ]; then
-        echo "Running migrations with dist/database/data-source.js";
-        npm run typeorm:prod -- migration:run -d dist/database/data-source.js;
-      elif [ -f dist/src/database/data-source.js ]; then
-        echo "Running migrations with dist/src/database/data-source.js";
-        npm run typeorm:prod -- migration:run -d dist/src/database/data-source.js;
-      else
-        echo "ERROR: data-source.js not found in dist. Check tsconfig.build.json.";
-        exit 1;
-      fi'
