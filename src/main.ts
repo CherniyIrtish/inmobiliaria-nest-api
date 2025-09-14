@@ -12,15 +12,23 @@ async function bootstrap() {
 
   const FRONTEND_ORIGIN = process.env.FRONTEND_ORIGIN || 'https://d38u0s6ayarqyq.cloudfront.net';
 
+  // app.enableCors({
+  //   origin: FRONTEND_ORIGIN,
+  //   credentials: true,
+  //   methods: ['GET', 'POST', 'PATCH', 'DELETE', 'OPTIONS'],
+  //   allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
+  //   exposedHeaders: ['Set-Cookie'],
+  //   preflightContinue: false,
+  //   optionsSuccessStatus: 204,
+  // });
+
   app.enableCors({
-    origin: FRONTEND_ORIGIN,
-    credentials: true,
-    methods: ['GET', 'POST', 'PATCH', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
-    exposedHeaders: ['Set-Cookie'],
-    preflightContinue: false,
-    optionsSuccessStatus: 204,
+    origin: '*',
+    methods: '*',
+    allowedHeaders: '*',
+    credentials: false,
   });
+
 
   setupApp(app);
 
