@@ -1,9 +1,9 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, Query, UseGuards } from '@nestjs/common';
 import { ListingsService } from './listings.service';
-import { AuthGuard } from 'src/common/guards/auth.guard';
+import { AuthGuard } from '../../common/guards/auth.guard';
 import { GetListingsDto } from './dtos/get-listings.dto';
 import { CreateListingDto } from './dtos/create-listing.dto';
-import { CurrentUser } from 'src/common/decorators/current-user.decorator';
+import { CurrentUser } from '../../common/decorators/current-user.decorator';
 import { UserEntity } from '../users/user.entity';
 import { UpdateListingDto } from './dtos/update-listing.dto';
 
