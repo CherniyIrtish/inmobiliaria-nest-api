@@ -16,6 +16,3 @@ services:
         sync: false # will be added in Render dashboard
       - key: COOKIE_KEY
         sync: false # will be added in Render dashboard
-      # Optional: pin Node.js version used at runtime/build
-      # - key: NODE_VERSION
-      #   value: 20
