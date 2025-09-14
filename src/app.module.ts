@@ -32,7 +32,7 @@ export class AppModule {
           name: 'session',
           keys: [this._configService.getOrThrow('COOKIE_KEY') as string],
           maxAge: 1000 * 60 * 60 * 24 * 7,
-          httpOnly: true,
+          httpOnly: false,
           secure: isProd,
           sameSite: isProd ? 'none' : 'lax',
         }),
