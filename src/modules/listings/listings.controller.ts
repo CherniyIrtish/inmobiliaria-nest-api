@@ -27,7 +27,10 @@ export class ListingsController {
 
     @Patch('/:id')
     @UseGuards(AuthGuard)
-    updateListing(@Param('id') id: string, @Body() body: UpdateListingDto) { }
+    updateListing(@Param('id') id: string, @Body() body: UpdateListingDto) {
+        return this._listingsService.updateListing(id, body);
+    }
+
 
     @Delete('/:id')
     removeListing(@Param('id') id: string) {
