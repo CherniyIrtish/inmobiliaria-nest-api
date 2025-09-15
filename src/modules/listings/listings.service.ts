@@ -5,6 +5,7 @@ import { ListingEntity } from './listing.entity';
 import { GetListingsDto } from './dtos/get-listings.dto';
 import { CreateListingDto } from './dtos/create-listing.dto';
 import { UserEntity } from '../users/user.entity';
+import { UpdateListingDto } from './dtos/update-listing.dto';
 
 
 @Injectable()
@@ -31,6 +32,16 @@ export class ListingsService {
         const listing = this._repo.create(listingDto);
 
         listing.user = user;
+
+        return this._repo.save(listing);
+    }
+
+    async updateListing(id: string, listingDto: UpdateListingDto) {
+        let listing = await this._repo.findOneBy({ id: +id });
+
+        if (!listing) throw new NotFoundException('Listing not found');
+
+        listing = { ...listing, ...listingDto }
 
         return this._repo.save(listing);
     }

@@ -1,5 +1,5 @@
-import { Expose } from "class-transformer";
-import { ListingEntity } from "src/modules/listings/listing.entity";
+import { Expose, Type } from "class-transformer";
+import { ListingDto } from "src/modules/listings/dtos/listing-dto.dto";
 
 
 export class UserDto {
@@ -13,5 +13,6 @@ export class UserDto {
     admin: boolean;
 
     @Expose()
-    listings: ListingEntity[];
+    @Type(() => ListingDto)
+    listings: ListingDto[];
 }
