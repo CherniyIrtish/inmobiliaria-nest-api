@@ -22,7 +22,7 @@ async function run() {
     if (exists === 0) {
 
         const adminEmail = 'admin@example.com';
-        const adminPassword = '111';
+        const adminPassword = 'q0jVegnDBc';
 
         const adminSalt = randomBytes(8).toString('hex');
         const adminHash = (await scrypt(adminPassword, adminSalt, 32) as Buffer);
@@ -30,7 +30,7 @@ async function run() {
         const admin = userRepo.create({ email: adminEmail, password: adminResult, admin: true });
 
         const userEmail = 'user@example.com';
-        const userPassword = '222';
+        const userPassword = 'xEYgjngn2p';
 
         const userSalt = randomBytes(8).toString('hex');
         const userHash = (await scrypt(userPassword, userSalt, 32) as Buffer);
