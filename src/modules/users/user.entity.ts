@@ -25,7 +25,7 @@ export class UserEntity {
     @Column({ type: 'text', nullable: true })
     totpSecretEnc: string | null;
 
-    @Column({ type: 'datetime', nullable: true })
+    @Column({ nullable: true })
     totpVerifiedAt: Date | null;
 
     @Column({ default: 0 })
