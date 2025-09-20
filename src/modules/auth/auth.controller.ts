@@ -3,7 +3,6 @@ import { AuthService } from './auth.service';
 import { SignDto } from './dtos/sign.dto';
 import { UserDto } from './dtos/user.dto';
 import { Serialize } from '../../common/interceptors/serialize.interceptor';
-import { AuthResponseDto } from './dtos/auth-response.dto';
 
 
 @Controller()
@@ -19,11 +18,8 @@ export class AuthController {
     }
 
     @Post('/signin')
-    @Serialize(AuthResponseDto)
     async signIn(@Body() body: SignDto) {
-        const { user, accessToken } = await this._authService.signin(body.email, body.password);
-
-        return { user, accessToken };
+        return this._authService.signin(body.email, body.password);
     }
 
     @Post('/signout')

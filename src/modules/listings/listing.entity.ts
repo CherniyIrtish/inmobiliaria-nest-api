@@ -31,6 +31,8 @@ export class ListingEntity {
     @Column()
     bedrooms: number;
 
-    @ManyToOne(() => UserEntity, (user) => user.listings)
+    @ManyToOne(() => UserEntity, (user) => user.listings, {
+        onDelete: 'CASCADE',
+    })
     user: UserEntity;
 }
