@@ -15,8 +15,9 @@ export class ListingsController {
 
     @Get()
     @UseGuards(AuthGuard)
-    getListings(@Query() query: GetListingsDto) {
-        return this._listingsService.getListings(query);
+    getListings(@Query() query: GetListingsDto, @CurrentUser() currentUser: UserEntity) {
+        const userId = currentUser.admin ? undefined : currentUser.id;
+        return this._listingsService.getListings(query, userId);
     }
 
     @Post()

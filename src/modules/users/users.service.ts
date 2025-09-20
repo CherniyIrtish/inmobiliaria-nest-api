@@ -31,10 +31,41 @@ export class UsersService {
     }
 
     async deleteUser(userId: number) {
-        const userToDelete = await this._repo.find({ where: { id: userId } });
+        const userToDelete = await this._repo.findOne({ where: { id: userId } });
 
         if (!userToDelete) throw new NotFoundException('User not found');
 
         return this._repo.remove(userToDelete);
+    }
+
+    async userUpdate(userId: number, dto: Partial<UserEntity>): Promise<UserEntity> {
+        const user = await this._repo.findOne({ where: { id: userId } });
+
+        if (!user) throw new NotFoundException('User not found');
+
+        const updated = this._repo.merge(user, dto);
+
+        return this._repo.save(updated);
+    }
+
+    async require2fa(userId: number, totpRequired: boolean): Promise<UserEntity> {
+        const patch = totpRequired
+            ? { totpRequired: true }
+            : {
+                totpRequired: false,
+                totpEnabled: false,
+                totpSecretEnc: null,
+                totpVerifiedAt: null,
+            };
+
+        await this._repo.update({ id: userId }, patch);
+
+        await this._repo.increment({ id: userId }, 'tokenVersion', 1);
+
+        const updated = await this._repo.findOne({ where: { id: userId } });
+
+        if (!updated) throw new NotFoundException('User not found');
+
+        return updated;
     }
 }

@@ -14,16 +14,12 @@ export class ListingsService {
     constructor(@InjectRepository(ListingEntity) private _repo: Repository<ListingEntity>) { }
 
 
-    getListings({ approved, bedrooms, }: GetListingsDto) {
+    getListings(q: GetListingsDto, userId?: number) {
         const qb = this._repo.createQueryBuilder('l');
 
-        if (approved !== undefined) {
-            qb.andWhere('l.approved = :approved', { approved });
-        }
-
-        if (bedrooms !== undefined) {
-            qb.andWhere('l.bedrooms = :bedrooms', { bedrooms });
-        }
+        if (userId != null) qb.andWhere('l.userId = :userId', { userId });
+        if (q.approved !== undefined) qb.andWhere('l.approved = :approved', { approved: q.approved });
+        if (q.bedrooms !== undefined) qb.andWhere('l.bedrooms = :bedrooms', { bedrooms: q.bedrooms });
 
         return qb.getMany();
     }

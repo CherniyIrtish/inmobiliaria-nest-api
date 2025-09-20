@@ -13,6 +13,13 @@ export class UserDto {
     admin: boolean;
 
     @Expose()
+    totpEnabled: boolean;
+
+    @Expose()
+    totpRequired: boolean;
+
+
+    @Expose()
     @Type(() => ListingDto)
     listings: ListingDto[];
 }

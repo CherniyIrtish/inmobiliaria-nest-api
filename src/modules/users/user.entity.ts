@@ -19,6 +19,21 @@ export class UserEntity {
     @OneToMany(() => ListingEntity, (listing) => listing.user)
     listings: ListingEntity[];
 
+    @Column({ default: false })
+    totpEnabled: boolean;
+
+    @Column({ type: 'text', nullable: true })
+    totpSecretEnc: string | null;
+
+    @Column({ type: 'datetime', nullable: true })
+    totpVerifiedAt: Date | null;
+
+    @Column({ default: 0 })
+    tokenVersion: number;
+
+    @Column({ default: false })
+    totpRequired: boolean;
+
     @AfterRemove()
     logRemove() {
         console.log(`Deleted User with id ${this.id}`);

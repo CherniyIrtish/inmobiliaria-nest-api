@@ -4,7 +4,6 @@ import 'dotenv/config';
 import { AppDataSource } from '../data-source';
 import { UserEntity } from 'src/modules/users/user.entity';
 
-
 const scrypt = promisify(_scrypt)
 
 
@@ -49,6 +48,8 @@ async function run() {
 
 run().catch(async (e) => {
     console.error('Seed error:', e);
+
     try { if (AppDataSource.isInitialized) await AppDataSource.destroy(); } catch { }
+
     process.exit(1);
 });
