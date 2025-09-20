@@ -1,6 +1,7 @@
 import { AfterInsert, AfterRemove, AfterUpdate, Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm"
 import { ListingEntity } from "../listings/listing.entity";
 
+const dateColumnType = process.env.NODE_ENV === 'production' ? 'timestamptz' : 'datetime';
 
 @Entity('users')
 export class UserEntity {
@@ -25,8 +26,8 @@ export class UserEntity {
     @Column({ type: 'text', nullable: true })
     totpSecretEnc: string | null;
 
-    @Column({ nullable: true })
-    totpVerifiedAt: Date;
+    @Column({ type: dateColumnType as any, nullable: true, default: null })
+    totpVerifiedAt: Date | null;
 
     @Column({ default: 0 })
     tokenVersion: number;
