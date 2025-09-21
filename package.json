@@ -18,7 +18,7 @@
     "test:cov": "cross-env NODE_ENV=test jest --coverage",
     "test:debug": "cross-env NODE_ENV=test node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "cross-env NODE_ENV=test jest --config ./test/jest-e2e.json",
-    "typeorm:prod": "node ./node_modules/typeorm/cli.js",
+    "typeorm:prod": "cross-env NODE_ENV=production node ./node_modules/typeorm/cli.js",
     "migration:generate:prod": "npm run build && npm run typeorm:prod -- migration:generate src/database/migrations/AutoProd -d dist/src/database/data-source.js",
     "migration:run:prod": "npm run typeorm:prod -- migration:run -d dist/src/database/data-source.js",
     "migration:revert:prod": "npm run typeorm:prod -- migration:revert -d dist/database/data-source.js",
