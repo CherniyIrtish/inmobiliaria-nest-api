@@ -19,6 +19,7 @@ class SigninMfaRequiredResponse {
     preauthToken: string;
 }
 
+
 @ApiTags('auth')
 @Controller()
 export class AuthController {

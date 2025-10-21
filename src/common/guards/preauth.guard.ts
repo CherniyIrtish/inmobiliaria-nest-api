@@ -25,9 +25,9 @@ export function PreAuthGuard(allowedStages: string[] | string): Type<CanActivate
     @Injectable()
     class PreAuthGuardMixin implements CanActivate {
         constructor(
-            private readonly jwt: JwtService,
-            private readonly cfg: ConfigService,
-            private readonly users: UsersService,
+            private readonly _jwtService: JwtService,
+            private readonly _configService: ConfigService,
+            private readonly _usersService: UsersService,
         ) { }
 
         async canActivate(ctx: ExecutionContext): Promise<boolean> {
@@ -39,12 +39,12 @@ export function PreAuthGuard(allowedStages: string[] | string): Type<CanActivate
                 throw new UnauthorizedException('Invalid Authorization header');
             }
 
-            const payload = await this.jwt.verifyAsync<any>(token, {
-                secret: this.cfg.getOrThrow<string>('JWT_SECRET'),
+            const payload = await this._jwtService.verifyAsync<any>(token, {
+                secret: this._configService.getOrThrow<string>('JWT_SECRET'),
                 algorithms: ['HS256'],
             });
 
-            const user = await this.users.findOne(payload.sub);
+            const user = await this._usersService.findOne(payload.sub);
 
             if (!user) throw new UnauthorizedException('User not found');
 
